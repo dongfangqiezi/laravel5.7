@@ -3,7 +3,7 @@
 
 <head>
     <title>@yield("title", "池月挽风") -- 不负骤雨</title>
-    <link rel="stylesheet" href="{{mix('css/app.css')}}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 
 <body>
