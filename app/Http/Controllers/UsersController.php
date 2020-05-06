@@ -22,14 +22,24 @@ class UsersController extends Controller
         return view('users.show', compact('user'));
     }
 
-    //  用户注册验证
+    //  用户注册验证和数据载入数据库
     public function store(Request $request)
     {
+        //  验证注册信息是否合法
         $this->validate($request, [
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:6'
         ]);
-        return;
+        
+        //  写入数据库
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        
+        session()->flash('sucess', '欢迎，加入微博大家庭~');
+        return redirect()->route('users.show', [$user]);
     }
 }
