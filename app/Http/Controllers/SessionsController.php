@@ -33,7 +33,13 @@ class SessionsController extends Controller
             //  使用 withInput()  后模板里old('email')  将能获取到上一次用户提交的内容，这样用户就无需再次输入邮箱等内容
             return redirect()->back()->withInput();
         }
+    }
 
-       
+    //  destroy 用户退出处理
+    public function destroy()
+    {
+        Auth::logout();
+        session()->flash('success', '您已成功退出！');
+        return redirect('login');
     }
 }
