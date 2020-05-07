@@ -24,7 +24,7 @@ class SessionsController extends Controller
         
         //  该用户存在于数据库，且邮箱和密码相符合
         //  根据邮箱在数据库中查找用户，如果查找到且密码的哈希值与数据库中的哈希值相匹配，那么就登录成功，反之失败。
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->has('remeber'))) {
             session()->flash('success', '欢迎回来！');
             //  使用 Auth::user() 方法获取用户信息传递给路由
             return redirect()->route('users.show', [Auth::user()]);
