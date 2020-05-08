@@ -28,6 +28,7 @@ Route::get("/signup", "UsersController@create")->name('signup');
 //  RESTful用户资源路由
 Route::resource('/users', 'UsersController');
 //Route::get('/users/{user}', 'UsersController@show')->name('users.show');
+//Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
 
 /**
  * 用户登录处理

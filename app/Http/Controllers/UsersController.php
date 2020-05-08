@@ -44,4 +44,45 @@ class UsersController extends Controller
         session()->flash('sucess', '欢迎，加入侠隐阁大家庭~');
         return redirect()->route('users.show', [$user]);
     }
+
+    //  更改用户资料页面
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    //  更改用户资料操作
+    public function update(User $user, Request $request)
+    {
+        //  验证数据合法性
+        $this->validate($request, [
+            //  验证规则
+            'name' => 'required|max:50',
+            'password' => 'nullable|confirmed|min:6'
+        ]);
+
+        // //  执行数据库更新操作
+        // $user->update([
+        //     'name' => $request->name,
+        //     'password' => bcrypt($request->password),
+        // ]);
+        
+        //  定义一个空数组
+        $data = [];
+        $data['name'] = $request->name;
+
+        //  如果用户不想更新密码 不输入密码那一项。那么$request->password只有不为空时才会赋值给$data
+        if($request->password){
+            $data['password'] = $request->password;
+        }
+
+        //  执行更新操作
+        $user->update($data);
+
+        //  闪存 向用户反馈信息
+        session()->flash('success', '个人资料更新成功！');
+
+        //  跳转至用户信息展示界面
+        return redirect()->route('users.show', $user->id);
+    }
 }
