@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionsController extends Controller
 {
+    //  权限设置
+    public function __construct()
+    {
+        //  只允许未登录用户访问注册页面
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     //  create
     public function create()
     {
@@ -27,7 +36,8 @@ class SessionsController extends Controller
         if (Auth::attempt($credentials, $request->has('remeber'))) {
             session()->flash('success', '欢迎回来！');
             //  使用 Auth::user() 方法获取用户信息传递给路由
-            return redirect()->route('users.show', [Auth::user()]);
+            $fallback = route('users.show', Auth::user());
+            return redirect()->intended($fallback);
         } else {
             session()->flash('danger', '很抱歉，您的邮箱和密码不匹配！');
             //  使用 withInput()  后模板里old('email')  将能获取到上一次用户提交的内容，这样用户就无需再次输入邮箱等内容
