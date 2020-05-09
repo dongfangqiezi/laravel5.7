@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use function GuzzleHttp\Promise\all;
+
 /**
  * 用户注册登录
  */
@@ -16,15 +18,23 @@ class UsersController extends Controller
     //  auth 过滤中间件
     public function __construct()
     {
-        //  这三个动作不使用auth过滤器，允许未登录用户查看
+        //  这几个动作不使用auth过滤器，允许未登录用户查看
         $this->middleware('auth', [
-            'except' => ['create', 'show', 'store'],
+            'except' => ['create', 'show', 'store', 'index'],
         ]);
 
         //  只允许未登录用户访问注册页面
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+
+    //  所有用户数据信息
+    public function index(User $user)
+    {
+        //  分页
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 
     //  用户注册
