@@ -125,4 +125,17 @@ class UsersController extends Controller
         //  跳转至用户信息展示界面
         return redirect()->route('users.show', $user->id);
     }
+
+    //  删除用户操作
+    public function destroy(User $user)
+    {
+        //  使用authorize()进行权限验证
+        $this->authorize('destroy', $user);
+        //  删除该用户
+        $user->delete();
+        //  反馈用户信息
+        session()->flash('success', '成功删除该用户！');
+        //  执行操作之后返回原页面
+        return back();
+    }
 }
