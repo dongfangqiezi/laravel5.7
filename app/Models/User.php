@@ -56,4 +56,10 @@ class User extends Authenticatable
             $user->activation_token = str_random(30);
         });
     }
+
+    //  博文表 一对多，一个用户可以拥有多个博文
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
 }
