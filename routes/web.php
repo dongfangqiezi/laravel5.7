@@ -40,5 +40,8 @@ Route::post('/login', 'SessionsController@store')->name('login');
 //  销毁会话(退出登录)
 Route::delete('/logout', 'SessionsController@destroy')->name('logout');
 
+//  用户邮箱激活
+Route::get('signup/confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');
+
 //  用户列表
 //Route::get('/index');
