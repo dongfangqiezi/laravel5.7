@@ -148,10 +148,10 @@ class UsersController extends Controller
         $view = 'emails.confirm';
         //  获取该用户信息,并创建数组
         $data = compact('user');
-        //  发件人邮箱
-        $from = '3215004912@qq.com';
-        //  发件人名称
-        $name = '宁一思进';
+        // //  发件人邮箱
+        // $from = '3215004912@qq.com';
+        // //  发件人名称
+        // $name = '宁一思进';
         //  收件人邮箱
         $to = $user->email;
         //  邮件内容
