@@ -14,7 +14,7 @@ use function GuzzleHttp\Promise\all;
  */
 class UsersController extends Controller
 {
-
+    //  2020/05/11
     //  auth 过滤中间件
     public function __construct()
     {
