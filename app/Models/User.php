@@ -62,4 +62,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Status::class);
     }
+
+    //  根据用户id，取出该用户所有博文并以降序排列
+    public function feed()
+    {
+        return $this->statuses()
+                    ->orderBy('created_at', 'desc');
+    }
 }
