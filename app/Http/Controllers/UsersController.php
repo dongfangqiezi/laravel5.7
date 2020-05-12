@@ -49,8 +49,8 @@ class UsersController extends Controller
     {
         //  显示微博，获取博文，博文排序，博文分页
         $statuses = $user->statuses()
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('users.show', compact('user', 'statuses'));
     }
@@ -179,5 +179,21 @@ class UsersController extends Controller
         Auth::login($user);
         session()->flash('success', '恭喜你，激活成功！');
         return redirect()->route('users.show', [$user]);
+    }
+
+    //  显示用户关注人列表视图
+    public function followings(User $user)
+    {
+        $users = $user->followings()->paginate(5);
+        $title = $user->name . '关注的人';
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    //  显示用户粉丝列表视图
+    public function followers(User $user)
+    {
+        $users = $user->followers()->paginate(5);
+        $title = $user->name . '的粉丝';
+        return view('users.show_follow', compact('users', 'title'));
     }
 }
