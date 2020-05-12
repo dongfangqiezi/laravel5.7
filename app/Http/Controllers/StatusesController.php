@@ -21,7 +21,7 @@ class StatusesController extends Controller
         # code...
     }
 
-    //  创建微博动作
+    //  创建微博动作 for you
     public function store(Request $request)
     {
         //  验证规则
