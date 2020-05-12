@@ -69,4 +69,46 @@ class User extends Authenticatable
         return $this->statuses()
                     ->orderBy('created_at', 'desc');
     }
+
+    //  粉丝关系列表
+    public function followers()
+    {
+        return $this->belongsToMany($this, 'followers', 'user_id', 'follower_id');
+    }
+
+    //  用户关注人列表
+    public function followings()
+    {
+        return $this->belongsToMany($this, 'followers', 'follower_id', 'user_id');
+    }
+
+    /**
+     * sync() 
+     * 会接收两个参数，第一个参数为要进行添加的id
+     * 第二个参数则指明是否要移除其它不包含在关联的  id  数组中的  id 
+     */
+    public function follow($user_ids)
+    {
+        if ( !is_array($user_ids) ) $user_ids = compact('user_ids');
+        
+        $this->followings()->sync($user_ids, false);
+    }
+
+    /**
+     * 
+     */
+    public function unfollow($user_ids)
+    {
+        if ( !is_array($user_ids) ) $user_ids = compact('user_ids');
+        
+        $this->followings()->detach($user_ids);
+    }
+
+    /**
+     * 判断用户 B 是否包含在用户 A 的关注人列表上
+     */
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
 }
