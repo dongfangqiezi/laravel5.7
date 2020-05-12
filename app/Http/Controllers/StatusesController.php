@@ -38,4 +38,17 @@ class StatusesController extends Controller
         session()->flash('success', '发布成功！');
         return redirect()->back();
     }
+
+    //  博文删除动作
+    //  隐性路由模型绑定，查找并注入对应ID的实例对象$status
+    public function destroy(Status $status)
+    {
+        //  授权检测
+        $this->authorize('destroy', $status);
+        //  使用 Eloquent 模型，执行删除操作
+        $status->delete();
+        //  反馈用户信息并重定向页面
+        session()->flash('success', '该博文已被成功删除！');
+        return redirect()->back();
+    }
 }
