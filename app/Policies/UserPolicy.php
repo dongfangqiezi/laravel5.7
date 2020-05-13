@@ -39,4 +39,12 @@ class UserPolicy
         //  只有当前用户拥有管理权限且删除的用户不是自己时才显示链接
         return $currentUser->is_admin && $currentUser->id !== $user->id;
     }
+
+    //  关注表单授权策略
+    //  实列用户和提交用户
+    public function follow(User $currentUser, User $user)
+    {
+        //  两者id完全不相等时，返回true，反之false
+        return $currentUser->id !== $user->id;
+    }
 }
